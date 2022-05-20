@@ -47,23 +47,24 @@ import CodeMirror, { commands } from 'codemirror'
       }
     } else if (codeBlockRE.test(line) && inCodeBlock) {
       // Code block last line
-      let button = document.createElement('button')
-      button.classList.add(codeBlockCopyButtonClass)
-      button.innerText = 'copy'
-      button.style.float = 'right'
-      button.style.position = 'absolute'
-      button.style.zIndex = '9'
-      button.style.right = '0'
-      button.style.marginTop = '5px'
+      inCodeBlock = false
+      let icon = document.createElement('clr-icon')
+      icon.title = 'Copy code block'
+      icon.classList.add(codeBlockCopyButtonClass)
+      icon.style.float = 'right'
+      icon.style.position = 'absolute'
+      icon.style.zIndex = '9'
+      icon.style.marginTop = '5px'
+      icon.setAttribute('shape', 'copy')
 
       // For async methods, use const to declare the variable to avoid changing the value
       const copyCodeText = codeText
-      button.addEventListener('click', function (e) {
+      icon.addEventListener('click', function (e) {
         clipboard.writeText(copyCodeText)
       })
 
-      cm.addWidget({ line: codeBlockStartLine, ch: 0 }, button, true)
-      inCodeBlock = false
+      cm.addWidget({ line: codeBlockStartLine, ch: 0 }, icon, true)
+
     } else if (inCodeBlock) {
       // Within a codeblock
       codeText += line + '\n'
