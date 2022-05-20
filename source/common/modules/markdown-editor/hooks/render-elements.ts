@@ -54,4 +54,5 @@ function renderElements (cm: CodeMirror.Editor): void {
   if (render.headingTags === true) cm.execCommand('markdownRenderHTags')
   if (render.emphasis === true) cm.execCommand('markdownRenderEmphasis')
   if (render.codeBlockCopy === true) cm.execCommand('markdownRenderCodeBlockCopy')
+  else cm.execCommand('destoryCodeBlockCopy')
 }

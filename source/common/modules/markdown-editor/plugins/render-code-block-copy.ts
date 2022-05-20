@@ -11,18 +11,35 @@
  *
  * END HEADER
  */
-
 import CodeMirror, { commands } from 'codemirror'
+const codeBlockCopyButtonClass = 'code-block-copy-button'
+
+/**
+ * Declare the destoryCodeBlockCopy function
+ *
+ * @param   {CodeMirror.Editor}  cm  The CodeMirror instance
+ */
+function removeCodeBlockCopyButtons (cm: CodeMirror.Editor): void {
+  document.querySelectorAll('.' + codeBlockCopyButtonClass).forEach(e => e.remove())
+}
+
+/**
+ * Declare the markdownDestoryCodeBlockCopy command
+ *
+ * @param   {CodeMirror.Editor}  cm  The CodeMirror instance
+ */
+;(commands as any).markdownDestoryCodeBlockCopy = function (cm: CodeMirror.Editor) {
+  removeCodeBlockCopyButtons(cm)
+}
 
 /**
  * Declare the markdownRenderCodeBlockCopy command
  *
  * @param   {CodeMirror.Editor}  cm  The CodeMirror instance
  */
-(commands as any).markdownRenderCodeBlockCopy = function (cm: CodeMirror.Editor) {
+;(commands as any).markdownRenderCodeBlockCopy = function (cm: CodeMirror.Editor) {
   const lineCount = cm.lineCount()
   const codeBlockRE = /^(?:\s{0,3}`{3}|~{3}).*/
-  const codeBlockCopyButtonClass = 'code-block-copy-button'
   const clipboard = window.clipboard
 
   let inCodeBlock = false
@@ -30,7 +47,7 @@ import CodeMirror, { commands } from 'codemirror'
   let codeBlockStartLine = 0
 
   // Remove exists buttons
-  document.querySelectorAll('.' + codeBlockCopyButtonClass).forEach(e => e.remove())
+  removeCodeBlockCopyButtons(cm)
 
   cm.startOperation()
 
@@ -64,7 +81,6 @@ import CodeMirror, { commands } from 'codemirror'
       })
 
       cm.addWidget({ line: codeBlockStartLine, ch: 0 }, icon, true)
-
     } else if (inCodeBlock) {
       // Within a codeblock
       codeText += line + '\n'
