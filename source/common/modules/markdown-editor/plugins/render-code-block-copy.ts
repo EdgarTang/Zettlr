@@ -15,60 +15,60 @@
 import CodeMirror, { commands } from 'codemirror'
 
 /**
-* Declare the markdownRenderCodeBlockCopy command
-*
-* @param   {CodeMirror.Editor}  cm  The CodeMirror instance
-*/
+ * Declare the markdownRenderCodeBlockCopy command
+ *
+ * @param   {CodeMirror.Editor}  cm  The CodeMirror instance
+ */
 (commands as any).markdownRenderCodeBlockCopy = function (cm: CodeMirror.Editor) {
-    const lineCount = cm.lineCount()
-    const codeBlockRE = /^(?:\s{0,3}`{3}|~{3}).*/
-    const codeBlockCopyButtonClass = 'code-block-copy-button'
-    const clipboard = window.clipboard
+  const lineCount = cm.lineCount()
+  const codeBlockRE = /^(?:\s{0,3}`{3}|~{3}).*/
+  const codeBlockCopyButtonClass = 'code-block-copy-button'
+  const clipboard = window.clipboard
 
-    let inCodeBlock = false
-    let codeText = ''
-    let codeBlockStartLine = 0
+  let inCodeBlock = false
+  let codeText = ''
+  let codeBlockStartLine = 0
 
-    // Remove exists buttons
-    document.querySelectorAll('.' + codeBlockCopyButtonClass).forEach(e => e.remove());
+  // Remove exists buttons
+  document.querySelectorAll('.' + codeBlockCopyButtonClass).forEach(e => e.remove())
 
-    cm.startOperation()
+  cm.startOperation()
 
-    // Check lines for code blocks
-    for (let i = 0; i < lineCount; i++) {
-        const line = cm.getLine(i)
-        if (!inCodeBlock) {
-            // Code block first line
-            if (codeBlockRE.test(line)) {
-                // Begin a codeblock
-                codeBlockStartLine = i
-                inCodeBlock = true
-                codeText = ''
-            }
-        } else if (codeBlockRE.test(line) && inCodeBlock) {
-            // Code block last line
-            let button = document.createElement('button')
-            button.classList.add(codeBlockCopyButtonClass)
-            button.innerText = 'copy'
-            button.style.float = 'right'
-            button.style.position = 'absolute'
-            button.style.zIndex = '9'
-            button.style.right = '0'
-            button.style.marginTop = '5px'
+  // Check lines for code blocks
+  for (let i = 0; i < lineCount; i++) {
+    const line = cm.getLine(i)
+    if (!inCodeBlock) {
+      // Code block first line
+      if (codeBlockRE.test(line)) {
+        // Begin a codeblock
+        codeBlockStartLine = i
+        inCodeBlock = true
+        codeText = ''
+      }
+    } else if (codeBlockRE.test(line) && inCodeBlock) {
+      // Code block last line
+      let button = document.createElement('button')
+      button.classList.add(codeBlockCopyButtonClass)
+      button.innerText = 'copy'
+      button.style.float = 'right'
+      button.style.position = 'absolute'
+      button.style.zIndex = '9'
+      button.style.right = '0'
+      button.style.marginTop = '5px'
 
-            // For async methods, use const to declare the variable to avoid changing the value
-            const copyCodeText = codeText
-            button.addEventListener('click', function(e) {
-                clipboard.writeText(copyCodeText)
-            })
+      // For async methods, use const to declare the variable to avoid changing the value
+      const copyCodeText = codeText
+      button.addEventListener('click', function (e) {
+        clipboard.writeText(copyCodeText)
+      })
 
-            cm.addWidget({ line: codeBlockStartLine, ch: 0 }, button, true)
-            inCodeBlock = false
-        } else if (inCodeBlock) {
-            // Within a codeblock
-            codeText += line + '\n'
-        }
+      cm.addWidget({ line: codeBlockStartLine, ch: 0 }, button, true)
+      inCodeBlock = false
+    } else if (inCodeBlock) {
+      // Within a codeblock
+      codeText += line + '\n'
     }
+  }
 
-    cm.endOperation()
+  cm.endOperation()
 }
