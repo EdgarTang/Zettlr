@@ -125,6 +125,7 @@ interface ConfigOptions {
     renderTasks: boolean
     renderHTags: boolean
     renderEmphasis: boolean
+    renderCodeBlockCopy: boolean
   }
   selectedDicts: string[]
   appLang: string
