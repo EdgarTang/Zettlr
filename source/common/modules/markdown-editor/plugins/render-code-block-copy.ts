@@ -23,6 +23,7 @@ import CodeMirror, { commands } from 'codemirror'
     const lineCount = cm.lineCount()
     const codeBlockRE = /^(?:\s{0,3}`{3}|~{3}).*/
     const codeBlockCopyButtonClass = 'code-block-copy-button'
+    const clipboard = window.clipboard
 
     let inCodeBlock = false
     let codeText = ''
@@ -61,7 +62,7 @@ import CodeMirror, { commands } from 'codemirror'
             // For async methods, use const to declare the variable to avoid changing the value
             const copyCodeText = codeText
             button.addEventListener('click', function(e) {
-                console.log(copyCodeText)
+                clipboard.writeText(copyCodeText)
             })
 
             cm.addWidget({ line: codeBlockStartLine, ch: 0 }, button, true)
