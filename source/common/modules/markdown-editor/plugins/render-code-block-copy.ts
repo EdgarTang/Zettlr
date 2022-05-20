@@ -29,14 +29,11 @@ import CodeMirror, { commands } from 'codemirror'
     let codeText = ''
     let codeBlockStartLine = 0
 
-    // Remove exists button
-    const existCopyButton = document.getElementsByClassName(codeBlockCopyButtonClass)
-    if(existCopyButton.length > 0) {
-        for (let i = 0; i < existCopyButton.length; i++) {
-            existCopyButton[i].remove()
-        }
-    }
+    // Remove exists buttons
+    document.querySelectorAll('.' + codeBlockCopyButtonClass).forEach(e => e.remove());
+
     cm.startOperation()
+
     // Check lines for code blocks
     for (let i = 0; i < lineCount; i++) {
         const line = cm.getLine(i)
