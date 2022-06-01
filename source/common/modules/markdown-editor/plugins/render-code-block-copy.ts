@@ -2,12 +2,12 @@
  * @ignore
  * BEGIN HEADER
  *
- * Contains:        Code bock copy rendering plugin
+ * Contains:        Codeblock copy button rendering plugin
  * CVM-Role:        CodeMirror Plugin
  * Maintainer:      Edgar Tang
  * License:         GNU GPL v3
  *
- * Description:     This plugin renders code block copy button display
+ * Description:     This plugin renders code block copy button
  *
  * END HEADER
  */
