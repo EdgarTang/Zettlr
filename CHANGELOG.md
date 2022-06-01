@@ -7,6 +7,19 @@
 - Added "Copy filename", "Copy path" and "Copy ID" to document tabs context
   menus (thanks to @kyaso)
 - Add "New File", "Next File" and "Previous File" buttons to the toolbar
+- The query input now gets blurred when starting a global search in order to
+  prevent the dropdown from showing up, especially during auto-searches
+- Fixed wrong character count if counting without spaces
+- Fixed wrong word count for indented lists
+- Fixed wrong keyword/tag CSS class names
+- Added keyword/tag CSS class names to YAML frontmatter tags
+- Display the last modification date in the file list, even if the additional
+  info setting is turned off
+- The "restrict to directory" field will now be empty by default
+- Pressing `Tab` while the query input is focused will now directly focus the
+  restrict-to-dir input
+- The recent documents menu on Windows works again
+- Fixed jumping of the code editor in the assets manager
 
 ## Under the Hood
 
